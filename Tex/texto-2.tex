@@ -1,0 +1,55 @@
+\documentclass[12 pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin={1 in}]{geometry}
+\usepackage{amsfonts}
+
+%pag 801
+\title{Conocimiento en el aprendizaje}
+\author{Jose Enrique Camacho Silvestre}
+\date{16 de mayo de 2020}
+
+\begin{document}
+	\maketitle
+	\section{Antecedentes}
+	Antes de poder explicar los distintos de métodos de aprendizaje es necesario poseer conocimientos previos de algunos conceptos, el objetivo de esta sección es presentarlos de manera superficial.
+		\subsection{Aprendizaje inductivo}
+			En nuestro enfoque definimos una función como un conjunto de pares ordenados.
+			
+			Sea \(f\) una función \(f: \mathbb{R} \mapsto \mathbb{R} \) y desconocida, \(f(x)\) el valor de la función \(f\) en \(x\), \(\mathcal{A}\) un conjunto tal que \(\mathcal{A} \subseteq f\),  devolver una función \(h\) denominada \emph{hipótesis} que se aproxime a la función \(f\) a partir del conjunto \(\mathcal{A}\). 
+			
+			Para este tipo de aprendizaje nos intersa pensar en una \emph{hipótesis} como un polinomio \(h := P(x)\). Un polinomio puede definirse de la siguiente manera:
+			
+			\begin{center}
+				Sea \( n \in \mathbb{N}\), entonces \(P_{n}(x) =  \sum_{i = 0}^{n} a_{i}x^{i}\)
+			\end{center}				
+			\(H\) el conjunto de hipótesis a considerar denominado \emph{espacio de hipótesis}: 
+
+			\begin{center}
+				Sea \(j, k \in \mathbb{N}\),  \(j\leq k\), entonces \(H = \{ P_{0}(x), P_{1}(x), P_{2}(x), ... , P_{j}(x) \}\). 
+			\end{center}
+			
+			\emph{Consistencia}, se dice que una hipotesis es consitente si verifica todos los puntos, es decir \(\mathcal{A} \subset h\). Sin embargo pueden exister más de dos hipotesis consitentes, la solución a esto nos la da \emph{la navaja de Ockham}, en donde nos sugiere elegir la hipótesis más sencilla.
+			
+			Pueden existir hipótesis que no son consitentes sin embargo permiten hacer mejores predicciones, estas funciones realizan una buean generalización. Esto nos dice que existe la posibilidad de que la función \(f\) sea no determinística.
+			
+			
+			
+		\subsection{Conocimiento \emph{a priori} y \emph{a posteriori}}
+			Tipos de conocimiento \emph{a priori} (en latín: 'previo a') y \emph{a posteriori} (en latín: 'posterior a'). 
+			
+			El conocimiento o justificación \emph{a priori} es independiente de la experiencia, 
+			
+			El conocimiento o justificación \emph{a posteriori} depende de la experiencia o de la evidencia empirica.
+				 
+	%En esta sección se plantea hablar de las capitulos o tipos de aprendizajes anteriores, de una manera de anecdota, sencilla y general, y a la vez de dar una visión general de nuestro capítulo, hablando de lo que son la hipotesis, seguramente se recurrirá a enciclopedias.
+	\section{Una formulación lógica del aprendizaje}
+	%En esta sección se plantea en primer lugar brindar de todo el conocimiento de lógica de primer orden e hipotesis.
+	\section{Conocimiento en el aprendizaje}
+	 
+	 \section{Aprendizaje basado en explicaciones}
+	 
+	 \section{Aprendizaje basado en información relevante}
+	
+	 \section{Programación lógica inductiva}
+	 
+\end{document}
