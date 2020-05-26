@@ -169,7 +169,7 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 					\includegraphics[width=0.6\textwidth]{./section2/fig1.png}
 				\end{figure}
 			
-			Esta relación se denomina restricción, donde Hipótesis es lo<<desconocido>>.  El objetivo del aprendizaje inductivo puro es resolver esta restricción, donde Hipótesis se obtiene a partir de algún espacio de hipótesis predefinido.
+			Esta relación se denomina restricción, donde Hipótesis es lo ``desconocido''.  El objetivo del aprendizaje inductivo puro es resolver esta restricción, donde Hipótesis se obtiene a partir de algún espacio de hipótesis predefinido.
 			
 			Para construir un \emph{agente de aprendizaje autónomo que utilice conocimiento básico}, el agente debe contar con algún método para obtener el conocimiento básico, para que este conocimiento se pueda utilizar en los nuevos episodios de aprendizaje. Este método también debe ser en sí mismo un proceso de aprendizaje, la historia de la vida del agente estará caracterizada por un desarrollo acumulativo o incremental.
 				\begin{figure}[h]
@@ -205,7 +205,7 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 			\subsubsection{Aprendizaje inductivo basado en el conocimiento (Algoritmo KBIL)}
 			\textbf{Ejemplo:} Un estudiante de Medicina sabe realizar diagnósticos sofisticados, pero es ignorante respecto a farmacología, está observando la consulta entre un paciente y un experto. Después de una serie de preguntas y respuestas, el experto dice al paciente que tome un determinado antibiótico. El estudiante de medicina inferirá la regla general sobre qué antibiótico particular es efectivo para un tipo de infección determinado.
 			
-			Se asume que el conocimiento a priori del estudiante es suficiente para inferir la enfermedad (D) del paciente a partir de los síntomas. Sin embargo, esto no es suficiente para explicar el hecho de que el doctor prescribe una medicina concreta (M) El estudiante necesita obtener otra regla: que M, generalmente, es una medicina efectiva contra la enfermedad D. Dada esta regla, y el conocimiento a priori con el que cuenta el estudiante, éste puede explicar por qué el experto prescribe M en ese caso particular. Podemos generalizar este ejemplo para proponer la restricción:
+			Se asume que el conocimiento a priori del estudiante es suficiente para inferir la enfermedad ($D$) del paciente a partir de los síntomas. Sin embargo, esto no es suficiente para explicar el hecho de que el doctor prescribe una medicina concreta ($M$) El estudiante necesita obtener otra regla: que $M$, generalmente, es una medicina efectiva contra la enfermedad $D$. Dada esta regla, y el conocimiento a priori con el que cuenta el estudiante, éste puede explicar por qué el experto prescribe $M$ en ese caso particular. Podemos generalizar este ejemplo para proponer la restricción:
 				\begin{figure}[h]
 					\centering
 					\includegraphics[width=1\textwidth]{./section2/fig5.png}
@@ -217,13 +217,13 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 					\centering
 					\includegraphics[width=0.8\textwidth]{./section2/fig6.png}
 				\end{figure}
-	 		Supongamos que estamos aprendiendo a integrar. Sabemos las reglas de integración, la tabla de integrales inmediatas y los métodos que podemos usar para resolverlas. Al principio, cuando nos dan una integral para resolver, vamos probando métodos hasta encontrar uno que nos de la solución de forma sencilla. Esto es, si decidimos aplicar un método y este nos lleva a una expresión más complicada, lo descartamos y probamos con otro. A medida que aumentamos nuestra experiencia en la resolución de integrales sabremos a simple vista" cuál es el método más apropiado para obtener la solución. Un método EBL puede asociarse a un sistema de resolución de problemas de manera que nos permitirá aprender reglas de control que mejorarán su eficiencia
+	 		Supongamos que estamos aprendiendo a integrar. Sabemos las reglas de integración, la tabla de integrales inmediatas y los métodos que podemos usar para resolverlas. Al principio, cuando nos dan una integral para resolver, vamos probando métodos hasta encontrar uno que nos de la solución de forma sencilla. Esto es, si decidimos aplicar un método y este nos lleva a una expresión más complicada, lo descartamos y probamos con otro. A medida que aumentamos nuestra experiencia en la resolución de integrales sabremos a simple vista cuál es el método más apropiado para obtener la solución. Un método EBL puede asociarse a un sistema de resolución de problemas de manera que nos permitirá aprender reglas de control que mejorarán su eficiencia
 	 			\begin{figure}[h]
 					\centering
 					\includegraphics[width=0.8\textwidth]{./section2/fig7.png}
 				\end{figure}
 	 		\subsection{Técnicas de la memorización}
-	 		La técnica de memorización ha sido extensamente utilizada en informática para acelerar los programas guardando los resultados de la computación. La idea básica de las funciones memo es acumular una base de datos de pares entrada/salida; cuando se hace una llamada a la función, ésta, en primer lugar, comprueba la base de datos para ver si se puede evitar que la resolución del problema parta de cero.
+	 		La técnica de memorización ha sido extensamente utilizada en informática para acelerar los programas guardando los resultados de la computación. La idea básica de las funciones memo es acumular una base de datos de pares \emph{entrada/salida}; cuando se hace una llamada a la función, ésta, en primer lugar, comprueba la base de datos para ver si se puede evitar que la resolución del problema parta de cero.
 	 		
 	 		\subsection{Extracción de reglas generales a partir de ejemplos:}
 			La idea en la que se basa EBL consiste en construir, en primer lugar, una explicación de la observación, utilizando conocimiento a priori, y posteriormente, establecer una definición de la clase de casos para los que se puede utilizar la misma estructura de explicación. Esta definición proporciona las bases para una regla que cubra todos los casos en la clase. La ``explicación'' puede ser una prueba lógica, aunque de forma más general, puede ser cualquier proceso de razonamiento o de resolución de problemas cuyos pasos estén bien definidos. La clave es ser capaz de identificar las condiciones necesarias para que los mismos pasos se puedan aplicar a otro caso.
@@ -234,7 +234,7 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 			\begin{itemize}
 				\item Se comienza con una meta para probar\\
 				\item Se inspecciona la memoria de trabajo para ver si la meta ha sido     previamente probada\\
-				\item En caso de que no se haya probado, el sistema busca en sus reglas para ver si     una o más tienen esta meta en su parte del THEN, este tipo de regla     es llamada regla meta.\\
+				\item En caso de que no se haya probado, el sistema busca en sus reglas para ver si     una o más tienen esta meta en su parte del \emph{THEN}, este tipo de regla     es llamada regla meta.\\
 				\item El sistema ve si las premisas de las reglas meta están listadas en la memoria     de trabajo, las premisas no listadas se tornan nuevas metas o     subtemas para ser probadas.\\
 				\item Este proceso continúa de manera recursiva hasta que el sistema encuentra una     premisa que no es soportada por ninguna regla, llamada primitiva     (premisa de una regla que no es concluida por ninguna regla)\\
 				\item Cuando una primitiva es encontrada, el sistema pregunta al usuario información     acerca de esta primitiva, entonces el sistema usa esta información     para ayudar a probar los subtemas y la meta original\\
@@ -244,9 +244,9 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 					\includegraphics[width=0.6\textwidth]{./section2/fig8.png}
 				\end{figure}
 			
-			En el encadenamiento hacia atrás, el orden a probar la hipótesis h deberá de probarse al menos una de las hipótesis intermedias. Se observa que el diagrama, en este caso se describe como un diagrama AND/OR para indicar que en algún caso, tal como h2 todas las hipótesis de nivel inferior deben estar presentes para sostener h2.
+			En el encadenamiento hacia atrás, el orden a probar la hipótesis h deberá de probarse al menos una de las hipótesis intermedias. Se observa que el diagrama, en este caso se describe como un diagrama \emph{AND/OR} para indicar que en algún caso, tal como $h_{2}$ todas las hipótesis de nivel inferior deben estar presentes para sostener $h_{2}$.
 	
-			En otros casos, tal como la hipótesis de nivel superior h solo es necesario una hipótesis de nivel inferior para que se verifique.En el encadenamiento hacia atrás, el sistema, por lo general, obtendrá evidencia del usuario, con el fin de probar o no la hipótesis, lo que contrasta con el sistema de encadenamiento hacia adelante, en el que todos los hechos relevantes se conocen por lo general con antelación.
+			En otros casos, tal como la hipótesis de nivel superior $h$ solo es necesario una hipótesis de nivel inferior para que se verifique.En el encadenamiento hacia atrás, el sistema, por lo general, obtendrá evidencia del usuario, con el fin de probar o no la hipótesis, lo que contrasta con el sistema de encadenamiento hacia adelante, en el que todos los hechos relevantes se conocen por lo general con antelación.
 			\subsubsection{Ejemplo del ecadenamiento hacia atrás}
 			Supongamos que un paciente va al doctor, el doctor luego de escuchar el problema del paciente creé que tiene una infección de garganta. Ahora bien veremos como un sistema experto basado en reglas de encadenamiento hacia atrás puede solucionar este problema.
 			
