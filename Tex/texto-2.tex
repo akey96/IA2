@@ -80,7 +80,7 @@
 			
 		\(Q(X_{i})\) es una la notación genérica si el ejemplo es positivo, y \(\neg Q(X_{i})\) si el ejemplo es negativo. Esta notación generica es una sentencia que representa la salida del objeto \(E_{i}\) o mejor definida sentencia de clasificación o descripción. El conjunto completo de entrenamiento es la conjunción de todas las sentencias de descripción y clasificación.
 		
-		\textbf{Aprendizaje inductivo en el marco lógico} consiste en encontrar una expresión lógica equivalente al predicado meta \(Q\) con el objetivo de clasificar correctamente los ejemplos. Por \textbf{expresión lógica equivalente} al predicado meta \(Q\) nos referimos a una relación binaria a través del conectivo lógico de la doble implicación (\(\iff\)), esta relación no marca una relación fuerte que el lógica se denomina equivalente ya que si el antecedente es falso entonces el consecuente también es falso, y si el consecuente es verdadero el consecuente también los sera, es decir ambos tienen el mismo valor lógico. Por \textbf{clasificar correctamente los ejemplos} nos referimos a que dadas las entradas o sentencias \(E_{1}, E_{2},..,E_{i}\) la expresión econtrada debe darnos las salidas \(Q_{1},Q_{2},..,Q_{i}\). Cada \textbf{hipótesis} propone una expresión, que denominaremos una \textbf{definición candidata} del predicado meta. Usando \(C_{i}\) para representar la definición candidata, cada hipótesis \(h_{i}\) es una sentencia de la forma \(\forall Q(x) \iff C_{i}(x)\). En este punto conviene \emph{``separarnos''} un poco de la visión de función en la que veíamos nuestro formulación del aprendizaje y cabe centrarnos en la visión lógica, donde las entradas o \(E_{i}\), son sentencias que se tomarán como premisas verdaderas y nos servirán como base de conocimiento. 
+		\textbf{Aprendizaje inductivo en el marco lógico} consiste en encontrar una expresión lógica equivalente al predicado meta \(Q\) con el objetivo de clasificar correctamente los ejemplos. Por \textbf{expresión lógica equivalente} al predicado meta \(Q\) nos referimos a una relación binaria a través del conectivo lógico de la doble implicación (\(\iff\)), esta relación no marca una relación fuerte que el lógica se denomina equivalente ya que si el antecedente es falso entonces el consecuente también es falso, y si el consecuente es verdadero el consecuente también los sera, es decir ambos tienen el mismo valor lógico. Por \textbf{clasificar correctamente los ejemplos} nos referimos a que dadas las entradas o sentencias \(E_{1}, E_{2},..,E_{i}\) la expresión econtrada debe darnos las salidas \(Q_{1},Q_{2},..,Q_{i}\). Cada \textbf{hipótesis} propone una expresión, que denominaremos una \textbf{definición candidata} del predicado meta. Usando \(C_{i}\) para representar la definición candidata, cada hipótesis \(h_{i}\) es una sentencia de la forma \(\forall x\quad Q(x) \iff C_{i}(x)\). En este punto conviene \emph{``separarnos''} un poco de la visión de función en la que veíamos nuestro formulación del aprendizaje y cabe centrarnos en la visión lógica, donde las entradas o \(E_{i}\), son sentencias que se tomarán como premisas verdaderas y nos servirán como base de conocimiento. 
 		\begin{center}
 			\textbf{Ejemplo:} Una hipótesis \(h_{r}\) pronene una definición candidata \(C_{r}\), la cual en lenguaje natural es: un predicado meta es verdadero para un objeto si y sólo si se alcanza una de las ramas que llevan a \emph{verdadero}. Formilazando esto en lógica:
 		\end{center}
@@ -127,7 +127,7 @@
 					\caption{Busca una hipótesis consistente que ajuste todos los ejemplos.}%pendiente.
 				\end{figure}
 			Entonces definimos la generalización y especialización como operaciones que cambian la \emph{extension} de nuestra hipótesis. Ahora necesitamos implementar operaciones sintácticas de manera exacta que modifiquen la definición candidata (\(C_{j}\)) asociada con la hipotesis. Esto se realiza observando que la generalización y la especialización son \textbf{realciones lógicas entre hipótesis}. Si la hipótesis $h_{1}$, con la definición $C_{1}$, es una generalización de la hipótesis $h_{2}$ con la definición $C_{2}$, entonces debemos tener
-				$$\forall x C_{2}(x) \Rightarrow C_{1}(x)$$
+				$$\forall x\quad C_{2}(x) \Rightarrow C_{1}(x)$$
 			Por lo tanto, para construir una generalización de $h_{2}$, necesitamos la definición $C_{1}$ que sea una implicación lógica de $C_{2}$. 
 			
 			Existen varias operaciones de gerneralización, pero el que usaremos será la \textbf{omisión de condiciones} (dropping conditions). Para especializar podemos \textbf{agregar condiciones} o \textbf{elimanar disyunciones} de una definición disyuntiva.
@@ -135,18 +135,18 @@
 			\textbf{Ejemplo:} Usando la tabla de la figura 1, iremos construyendo nuestra hipotesis.
 			\begin{itemize}
 				\item El primer ejemplo $X_{1}$ es positivo. $Alternativa(X_{1})$ es verdadero, así que la hipótesis inicial será
-					$$h_{1}: \forall x Esperar(x) \Leftrightarrow Alternativa(x)$$
+					$$h_{1}: \forall x \quad Esperar(x) \Leftrightarrow Alternativa(x)$$
 				\item El segundo ejemplo $X_{2}$ es negativo. $h_{1}$ lo predice como positivo, así que es un falso positivo. Por ello, tenemos que especializar $h_{1}$. Se puede hacer añadiendo una condición extra que rehace $X_{2}$. Una posibilidad es
-					$$h_{2}: \forall x Esperar(x) \Leftrightarrow Alternativa(x) \land Clientes(x, Algunos)$$
+					$$h_{2}: \forall x \quad Esperar(x) \Leftrightarrow Alternativa(x) \land Clientes(x, Algunos)$$
 				\item  El tercer ejemplo $X_{3}$ es positivo. $h_{2}$ lo predice como negativo, luego es un falso negativo. Por ello, necesitamos generalizar $h_{2}$. Eliminamos la condición Alternativa, resultando
-					$$h_{3}:\forall x Esperar(x) \Leftrightarrow Clientes(x, Algunos)$$
+					$$h_{3}:\forall  x\quad Esperar(x) \Leftrightarrow Clientes(x, Algunos)$$
 				\item El cuarto ejemplo $X_{4}$ es positivo. $h_{3}$ lo predice como negativo, luego es un falso negativo. Por ello, necesitamos generalizar. No podemos eliminar la condición de $Clientes$, ya que obtendríamos una hipótesis que incluye a todos los ejemplos,que sería inconsistente con $X_{2}$. Una posibilidad es añadir una disyunción:
-					$$h_{4}:\forall x Esperar(x) \Leftrightarrow Clientes(x, Algunos)\lor (Clientes(x, Lleno) \land Vier/Sab(x))$$
+					$$h_{4}:\forall x\quad Esperar(x) \Leftrightarrow Clientes(x, Algunos)\lor (Clientes(x, Lleno) \land Vier/Sab(x))$$
 			\end{itemize}
 				
 				La hipótesis ya está comenzando a parecer razonable. Obviamente, existen otras posibilidades consistentes con los cuatro primeros ejemplos; aquí están otras dos:
-					$$h_{4}':\forall x Esperar(x) \Leftrightarrow \neg TiempoEsperaEstimado(x, 30-60)$$
-					$$h_{4}'':\forall x Esperar(x) \Leftrightarrow Clientes(x, Algunos)$$ 
+					$$h_{4}':\forall x\quad Esperar(x) \Leftrightarrow \neg TiempoEsperaEstimado(x, 30-60)$$
+					$$h_{4}'':\forall x\quad Esperar(x) \Leftrightarrow Clientes(x, Algunos)$$ 
 					$$\lor (Clientes(x, Lleno) \land TiempoEsperaEstimado(x, 10-30))$$
 			Este tipo de algoritmo es muy caro computacionalmente debido al \emph{backtraking}, se dice que es doblemente exponencial.
 			
@@ -258,9 +258,91 @@ De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer
 						  \item Se construye una nueva regla cuya parte izquierda está formada por las hojas del árbol de prueba y cuya parte derecha es la meta variabilizada (después de aplicar las asignaciones necesarias de la prueba generalizada).\\
 						  \item Se eliminan todas las condiciones que son verdaderas independientemente de los valores de las variables de la meta.\\
 				\end{enumerate}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	 \section{Aprendizaje basado en información relevante}
-	
+		Parece que nuestro turista en Brasil es capaz de hacer una generalización segura sobre el idioma que hablan otros brasileños. 
+
+		Su conocimiento básico autoriza la inferencia: la gente del mismo país (normalmente) habla el mismo idioma. Esto se puede expresar en lógica de primer orden de la siguiente manera:
+		
+			$$Nacionalidad(x, n) \land Nacionalidad(y, n) \land Idioma(x, l) \Rightarrow Idioma(y, l)$$
+		
+		No es difícil demostrar que a partir de esta sentencia y de la observación, 
+		
+			$$Nacionalidad(Fernando, Brasil) \land Idioma(Fernando, Portugues)$$
+		
+		Se deduce la siguiente conclusión:
+		
+			$$Nacionalidad(x, Brasil) \land Idioma(x, Portugues)$$
+		Las sentencias anteriores expresan una forma estricta de relevancia: dada una nacionalidad, el idioma queda totalmente determinado. 
+		
+		Estas sentencias se denominan dependencias funcionales o determinaciones. Son tan comunes en algunos tipos de aplicaciones, que se utiliza una sintaxis especial para escribirlas. Adoptaremos la notación de Davies (1985):
+		
+			$$Nacionalidad(x, n)\succ Idioma(x, l)$$
+		Esto es simplemente el azúcar sintáctico al que ya estamos acostumbrados, pero deja claro que la determinación es realmente una relación entre los predicados: la nacionalidad determina el lenguaje. 
+
+		Las propiedades relevantes que determinan la conductancia y la densidad se pueden expresar de una forma similar:
+			$$Material(x, m)\land Temperatura(x, t) \succ Conductancia(x, p);$$
+			$$Material(x, m) \land Temperatura(x, t) \succ Densidad(x, d)$$
+		
+		\subsection{Determinar el espacio de hipótesis}
+			Aunque las determinaciones autorizan la obtención de conclusiones generales para todos los brasileños, o para todas las piezas de cobre a una temperatura dada, por supuesto, no pueden dar lugar a una teoría de predicción general para todas las nacionalidades, o para todas las temperaturas y materiales, a partir de un simple ejemplo. 
+			
+			Se puede decir que su principal efecto es que limitan el espacio de hipótesis que el agente de aprendizaje necesita considerar. Por ejemplo, para predecir la conductancia, se necesita considerar únicamente el material y la temperatura, y se puede ignorar la masa, el propietario, el día de la semana, el presidente actual, etc. Desde luego, las hipótesis pueden incluir términos que vienen determinados por el material y la temperatura, como la estructura molecular, la energía térmica, o la densidad de electrones libres. Las determinaciones especifican un vocabulario básico suficiente para construir hipótesis relativas al predicado principal. Esta sentencia se puede demostrar mostrando que una determinación dada es lógicamente equivalente a una sentencia en la que el predicado principal es uno de los elementos del conjunto de todas las definiciones que se pueden expresar utilizando los predicados de la parte derecha de la determinación.
+			
+		\subsection{Aprender y utilizar información relevante}
+			Como ya comentamos en la introducción de este capítulo, el conocimiento a priori es muy útil para el aprendizaje, pero también tiene que aprenderse. 
+			
+			Por lo tanto, para conocer completamente el aprendizaje basado en información relevante, debemos proporcionar un algoritmo de aprendizaje para determinaciones. El algoritmo de aprendizaje que vamos a presentar se basa en un intento sencillo para encontrar la determinación más simple que es consistente con las observaciones. Una determinación $P \succ Q$ indica que si algunos ejemplos encajan con $P$, también deben encajar con $Q$. Por lo tanto, una determinación es consistente con un conjunto de ejemplos, si cada par que encaja con los predicados de la parte izquierda también encaja con el predicado principal, es decir, tiene la misma clasificación. Por ejemplo, suponga que tenemos los siguientes ejemplos, relativos a medidas de conductancia en unas muestras de material:	
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.85\textwidth]{./section3/fig1.png}
+				\end{figure}
+				
+			La determinación consistente mínima es 
+				$$Material \land Temperatura \succ Conductancia$$
+			Existe una determinación no mínima, pero consistente: 
+			$$Masa \land \textit{Tamaño} \land Temperatura \succ Conductancia$$
+			Es consistente con los ejemplos porque la masa y el tamaño determinan la densidad, y en nuestro conjunto de datos no tenemos dos materiales diferentes con la misma densidad. Como es usual, necesitaríamos una muestra más grande para eliminar una hipótesis casi correcta.
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.9\textwidth]{./section3/fig2.png}
+				\end{figure}
+			
 	 \section{Programación lógica inductiva}
-	 
+	 	Combina los métodos de inducción con la potencia de las representaciones de primer orden.
+	 	
+	 	\textbf{¿Por qué es tan popular?}
+	 		\begin{itemize}
+	 			\item Ofrece un enfoque riguroso al problema de aprendizaje inductivo basado en el conocimiento.\\
+	 			\item Ofrece algoritmos completos para inducir teorías de primer orden generales, a partir de los ejemplos.\\
+	 			\item Produce hipótesis que son (relativamente) fáciles de entender por humanos.\\
+	 		\end{itemize}
+	 		\textbf{Ejemplo:} Tenemos el problema general de inducción basado en el conocimiento cuyo fin es ``resolver'' la restricción.			
+	 		$$\textit{ConocimientoBásico} \land \textit{Hipótesis}\land Descripciones \models Clasificaciones$$
+	 		
+	 		Para la \textbf{\textit{Hipótesis}} desconocida, dados el \textbf{\textit{ConocimientoBásico}} y los ejemplos descritos por las \textbf{\textit{Descripciones}} y las \textbf{\textit{Clasificaciones}}. 
+	 		
+	 		Para ilustrar esto, usaremos el problema de aprendizaje de relaciones familiares a partir de ejemplos.
+	 		\begin{figure}[h]
+					\centering
+					\includegraphics[width=1\textwidth]{./section3/fig3.png}
+				\end{figure}
+			Las \textbf{\textit{Descripciones}} consistirán en un árbol genealógico extendido, descrito en términos de Madre, Padre, la relación CasadoCon y las propiedades Hombre y Mujer. 	
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig4.png}
+				\end{figure}
+			Las sentencias en \textbf{\textit{Clasificaciones}} dependen del concepto objetivo que está siendo aprendido. 
+Podríamos querer aprender $Abuelo/a$, \textit{Cuñado}, o \textbf{Ancestro}, por ejemplo. 
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig5.png}
+				\end{figure}
+			Podríamos aprender a partir de un subconjunto de este conjunto completo.
+	
+			El objetivo de un programa de aprendizaje inductivo es proponer un conjunto de sentencias para la Hipótesis, tal que la restricción se satisfaga. 
+			
+			Suponga, por el momento, que el agente no tiene conocimiento básico: ConocimientoBásico es vacío. Entonces una posible solución para la Hipótesis es la siguiente:
+
+
 \end{document}
