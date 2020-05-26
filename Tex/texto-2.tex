@@ -162,7 +162,7 @@
 			\textbf{Descripciones:} Conjunción de todas las descripciones de los ejemplos del conjunto de entrenamiento.
 			
 			\textbf{Clasificaciones:} Conjunción de todas las clasificaciones de los ejemplos.
-De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer la siguiente propiedad:
+De este modo, las Hipótesis que ``explican las observaciones'' deben satisfacer la siguiente propiedad:
 				
 				\begin{figure}[h]
 					\centering
@@ -172,7 +172,10 @@ De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer
 			Esta relación se denomina restricción, donde Hipótesis es lo<<desconocido>>.  El objetivo del aprendizaje inductivo puro es resolver esta restricción, donde Hipótesis se obtiene a partir de algún espacio de hipótesis predefinido.
 			
 			Para construir un \emph{agente de aprendizaje autónomo que utilice conocimiento básico}, el agente debe contar con algún método para obtener el conocimiento básico, para que este conocimiento se pueda utilizar en los nuevos episodios de aprendizaje. Este método también debe ser en sí mismo un proceso de aprendizaje, la historia de la vida del agente estará caracterizada por un desarrollo acumulativo o incremental.
-			%figure
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.85\textwidth]{./section2/fig2.png}
+				\end{figure}
 		\subsection{Ejemplos de aprendiaje con conocimiento básico}
 			\subsubsection{Aprendizaje basado en explicaciones (EBL)}
 			Ejemplo: Un hombre primitivo, está asando un lagarto en una vara. Es observado por una multitud asombrada de sus contemporáneos menos intelectuales, quienes han venido utilizando sus manos desnudas para mantener sus provisiones sobre el fuego. Esta instructiva experiencia es suficiente para convencer a los observadores de un principio general para cocinar sin dolor.
@@ -180,7 +183,10 @@ De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer
 			Tipo de restricción: El hombre primitivo generaliza explicando el éxito de la vara: ésta soporta al lagarto, manteniendo así la mano lejos del fuego. A partir de esta explicación, infiere una \emph{regla general}: que cualquier objeto largo, rígido y puntiagudo sirve para asar alimentos pequeños y ligeros.
 			
 			Este tipo de proceso de generalización es denominado aprendizaje basado en explicaciones, o EBL (Explanation Based Learning). La regla general se deduce lógicamente del conocimiento básico que posee el hombre primitivo. Por lo tanto, las restricciones que se satisfacen por el EBL son las siguientes:
-			%figure
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.6\textwidth]{./section2/fig3.png}
+				\end{figure}
 			
 			EBL necesita que exista suficiente conocimiento básico como para explicar la Hipótesis, que en realidad explica las observaciones, por tanto, realmente el agente no aprende nada nuevo del ejemplo. El agente podría haber derivado el ejemplo de lo que ya sabía, aunque esto requiriera una cantidad muy elevada de computación. EBL no se considera como un método para convertir los primeros principios de las teorías en conocimiento útil de propósito específico.
 			\subsubsection{Aprendizaje basado en Relevancia (RBL)}
@@ -189,7 +195,10 @@ De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer
 			En este caso, el conocimiento a priori relevante es que, en cualquier país, la mayoría de la gente habla el mismo idioma; por otro lado, no se asume que Fernando sea el nombre de todos los brasileños, porque este tipo de regularidad no se verifica para los nombres.
 
 			En este caso, el Conocimiento Básico a priori se refiere a la relevancia que tiene un conjunto de características sobre el predicado meta. Este conocimiento, junto con las observaciones, permite al agente inferir una nueva regla general que explica las observaciones:
-			%figure
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section2/fig4.png}
+				\end{figure}
 			
 			Como el RBL no hace uso del contenido de las observaciones, no produce hipótesis que vayan más allá del contenido lógico del conocimiento básico y de las observaciones. Es un método de aprendizaje deductivo, y por sí mismo no puede justificar la creación de nuevo conocimiento sin un conocimiento inicial de partida.
 			
@@ -197,18 +206,27 @@ De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer
 			\textbf{Ejemplo:} Un estudiante de Medicina sabe realizar diagnósticos sofisticados, pero es ignorante respecto a farmacología, está observando la consulta entre un paciente y un experto. Después de una serie de preguntas y respuestas, el experto dice al paciente que tome un determinado antibiótico. El estudiante de medicina inferirá la regla general sobre qué antibiótico particular es efectivo para un tipo de infección determinado.
 			
 			Se asume que el conocimiento a priori del estudiante es suficiente para inferir la enfermedad (D) del paciente a partir de los síntomas. Sin embargo, esto no es suficiente para explicar el hecho de que el doctor prescribe una medicina concreta (M) El estudiante necesita obtener otra regla: que M, generalmente, es una medicina efectiva contra la enfermedad D. Dada esta regla, y el conocimiento a priori con el que cuenta el estudiante, éste puede explicar por qué el experto prescribe M en ese caso particular. Podemos generalizar este ejemplo para proponer la restricción:
-			%figure
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=1\textwidth]{./section2/fig5.png}
+				\end{figure}
 			
 	 \section{Aprendizaje basado en explicaciones}
 	 		El aprendizaje basado en explicaciones es un método para extraer reglas generales a partir de observaciones particulares.
-	 		%figure
+	 			\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section2/fig6.png}
+				\end{figure}
 	 		Supongamos que estamos aprendiendo a integrar. Sabemos las reglas de integración, la tabla de integrales inmediatas y los métodos que podemos usar para resolverlas. Al principio, cuando nos dan una integral para resolver, vamos probando métodos hasta encontrar uno que nos de la solución de forma sencilla. Esto es, si decidimos aplicar un método y este nos lleva a una expresión más complicada, lo descartamos y probamos con otro. A medida que aumentamos nuestra experiencia en la resolución de integrales sabremos a simple vista" cuál es el método más apropiado para obtener la solución. Un método EBL puede asociarse a un sistema de resolución de problemas de manera que nos permitirá aprender reglas de control que mejorarán su eficiencia
-	 		%figure
+	 			\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section2/fig7.png}
+				\end{figure}
 	 		\subsection{Técnicas de la memorización}
 	 		La técnica de memorización ha sido extensamente utilizada en informática para acelerar los programas guardando los resultados de la computación. La idea básica de las funciones memo es acumular una base de datos de pares entrada/salida; cuando se hace una llamada a la función, ésta, en primer lugar, comprueba la base de datos para ver si se puede evitar que la resolución del problema parta de cero.
 	 		
 	 		\subsection{Extracción de reglas generales a partir de ejemplos:}
-			La idea en la que se basa EBL consiste en construir, en primer lugar, una explicación de la observación, utilizando conocimiento a priori, y posteriormente, establecer una definición de la clase de casos para los que se puede utilizar la misma estructura de explicación. Esta definición proporciona las bases para una regla que cubra todos los casos en la clase. La <<explicación>> puede ser una prueba lógica, aunque de forma más general, puede ser cualquier proceso de razonamiento o de resolución de problemas cuyos pasos estén bien definidos. La clave es ser capaz de identificar las condiciones necesarias para que los mismos pasos se puedan aplicar a otro caso.
+			La idea en la que se basa EBL consiste en construir, en primer lugar, una explicación de la observación, utilizando conocimiento a priori, y posteriormente, establecer una definición de la clase de casos para los que se puede utilizar la misma estructura de explicación. Esta definición proporciona las bases para una regla que cubra todos los casos en la clase. La ``explicación'' puede ser una prueba lógica, aunque de forma más general, puede ser cualquier proceso de razonamiento o de resolución de problemas cuyos pasos estén bien definidos. La clave es ser capaz de identificar las condiciones necesarias para que los mismos pasos se puedan aplicar a otro caso.
 			
 			\subsection{Encadenamiento hacia atrás}
 			El proceso de desarrollo de un Sistema basado en encadenamiento hacia atrás está dado de la siguiente manera:
@@ -221,7 +239,10 @@ De este modo, las Hipótesis que <<explican las observaciones>> deben satisfacer
 				\item Este proceso continúa de manera recursiva hasta que el sistema encuentra una     premisa que no es soportada por ninguna regla, llamada primitiva     (premisa de una regla que no es concluida por ninguna regla)\\
 				\item Cuando una primitiva es encontrada, el sistema pregunta al usuario información     acerca de esta primitiva, entonces el sistema usa esta información     para ayudar a probar los subtemas y la meta original\\
 			\end{itemize}	
-			%figure
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.6\textwidth]{./section2/fig8.png}
+				\end{figure}
 			
 			En el encadenamiento hacia atrás, el orden a probar la hipótesis h deberá de probarse al menos una de las hipótesis intermedias. Se observa que el diagrama, en este caso se describe como un diagrama AND/OR para indicar que en algún caso, tal como h2 todas las hipótesis de nivel inferior deben estar presentes para sostener h2.
 	
