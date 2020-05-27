@@ -343,6 +343,143 @@ Podríamos querer aprender $Abuelo/a$, \textit{Cuñado}, o \textbf{Ancestro}, po
 			El objetivo de un programa de aprendizaje inductivo es proponer un conjunto de sentencias para la Hipótesis, tal que la restricción se satisfaga. 
 			
 			Suponga, por el momento, que el agente no tiene conocimiento básico: ConocimientoBásico es vacío. Entonces una posible solución para la Hipótesis es la siguiente:
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig6.png}
+				\end{figure}
+				
+			\textbf{Nóta:} Un algoritmo de aprendizaje basado en atributos, tal como \textbf{APRENDIZAJE - ÁRBOL -DECISIÓN}, no conseguirá nada a la hora de resolver este problema. Para poder expresar $Abuelo/a$ como un atributo (es decir, un predicado unario), necesitamos convertir pares de personas en objetos:
+				$$Abuelo/a(<Mum, Charles>) ...$$
+			Luego nos atascaremos intentando representar las descripciones del ejemplo. Los únicos atributos posibles tienen un aspecto tan horroroso como
+				$$PrimerElementoEsMadreDeElisabeth(<Mum, Charles>)$$
+			La definición de $Abuelo/a$ en términos de estos atributos simplemente se convierte en una gran disyunción de casos específicos que no generaliza para nuevos ejemplos. 
+Los algoritmos de aprendizaje basados en atributos son incapaces de aprender predicados relacionales. 
+Por ello, una de las principales ventajas de los algoritmos de ILP es su aplicabilidad a un mayor rango de problemas, incluyendo problemas de relaciones.
 
+			Un poco de conocimiento básico ayudaría en la representación de la definición de $Abuelo/a$. Por ejemplo, si ConocimientoBásico incluye la sentencia
+				$$Progenitor(x,y) \Leftrightarrow [Madre(x , y) \lor Padre(x, y)]$$
+			entonces la definición de Abuelo/a se reduciría a
+				$$Abuelo/a(x, y)\Leftrightarrow [\exists z \quad Progenitor(x, z) \land Progenitor(z, y)]$$
+			
+			Esto muestra cómo el conocimiento básico puede reducir considerablemente el tamaño de la hipótesis requerido para explicar las observaciones.
 
+			Para los algoritmos de ILP también es posible crear nuevos predicados para expresar más fácilmente la hipótesis explicativa. Dado el ejemplo de datos mostrado anteriormente, es razonable para el programa ILP proponer un predicado adicional, al que llamaremos ``Progenitor'', para simplificar las definiciones de los predicados meta. Los algoritmos que pueden generar nuevos predicados se denominan algoritmos de inducción constructiva. 
+			\subsection{Métodos de aprendizaje inductivo de arriba a abajo (Top-down)}
+				Los primeros enfoques en trabajos de ILP comienzan con una regla muy general que gradualmente se especializa hasta que encaja con los datos. Esto es esencialmente lo que ocurre en el aprendizaje de árboles de decisión, donde se construye incrementalmente un árbol de decisión hasta que es consistente con todas las observaciones. 
+
+				Para ILP usamos literales de primer orden en vez de atributos, y la hipótesis es un conjunto de cláusulas en vez de un árbol de decisión. 
+
+				Suponga que estamos intentando aprender la definición de Abuelo(x,y), usando los mismos datos familiares que antes. Al igual que el aprendizaje de árboles de decisión, podemos dividir los ejemplos en positivos y negativos. 
+
+				Los ejemplos positivos son
+					$$<George, Anne>, <Philip, Peter>, <Spencer, Harry>, ...$$
+				y los ejemplos negativos son
+					$$<George, Elizabeth>, <Harry, Zara>, <Charles, Philip>, ...$$
+				
+				Nótese que cada ejemplo es un par de objetos, ya que Abuelo es un predicado binario.
+
+				Existen 12 ejemplos positivos en el árbol genealógico y 388 ejemplos negativos (todos ellos pares de personas).
+
+				FOIL construye un conjunto de cláusulas, cada una con $Abuelo(x,y)$ en la cabeza. Las cláusulas deben clasificar los 12 ejemplos positivos como instancias de la relación $Abuelo(x,y)$, y desechar los 388 ejemplos negativos. Las cláusulas son cláusulas de Horn, extendidas con literales negados usando la negación como fallo, al igual que en Prolog. La cláusula inicial tiene cuerpo vacío:
+				
+					$$\Rightarrow Abuelo(x,y)$$
+				
+				Esta cláusula clasifica todos los ejemplos como positivos, así que necesita ser especializada. Hacemos esto añadiendo literales a su parte izquierda, de uno en uno. A continuación se muestran tres adiciones posibles:
+					$$Padre(x, y) \Rightarrow Abuelo(x, y)$$
+					$$Progenitor(x, z) \Rightarrow Abuelo(x, y)$$
+					$$Padre(x, z)\Rightarrow Abuelo(x, y)$$
+				(Nótese que estamos asumiendo que una cláusula que define Progenitor forma parte del conocimiento básico.) 
+				
+				\begin{itemize}
+					\item La primera de estas tres cláusulas clasifica incorrectamente todos los 12 ejemplos como negativos, así que puede ser ignorada.\\
+					\item La segunda y la tercera clasifican correctamente los ejemplos positivos, pero la segunda es incorrecta con una gran parte de los ejemplos negativos (dos veces como mucho, ya que permite tanto madres como padres).\\
+					\item Luego, preferiremos la tercera cláusula.\\
+				\end{itemize}	
+				Ahora, necesitamos especializar más la cláusula, para desechar los casos en los que $x$ es el padre de $z$, pero $z$ no es el progenitor de $y$. Añadiendo el literal $Progenitor(z,y)$ obtenemos
+				
+					$$Padre(x, z) \land Progenitor(z, y) \Rightarrow Abuelo(x, y)$$
+					
+				que clasifica correctamente todos los ejemplos. FOIL encontrará y elegirá este literal, resolviendo la tarea de aprendizaje. En general, FOIL tendrá que buscar en muchas cláusulas sin éxito antes de encontrar la solución correcta.
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.9\textwidth]{./section3/fig7.png}
+				\end{figure}
+		\subsection{Aprendizaje inductivo con deducción inversa}
+		La resolución inversa se basa en la observación de que si el ejemplo Clasificaciones resulta de \textbf{\textit{ConocimientoBásico $\land$ Hipótesis $\land$ Restricciones}}, entonces se puede probar este hecho a través de resolución. Si podemos ``ejecutar la prueba hacia atrás'', podemos encontrar una hipótesis tal que la prueba llegue a ella. La clave es encontrar una forma de invertir el proceso de resolución.	
+		
+		Mostraremos un proceso de prueba hacia atrás para la resolución inversa que consiste en pasos hacia atrás individuales. 
+Recordando que un proceso normal de resolución toma dos cláusulas $C_{1}$ y $C_{2}$ y las resuelve produciendo el resolvente $C$.
+Un paso de resolución inversa toma un resolvente $C$ y produce dos cláusulas $C_{1}$ y $C_{2}$, tal que $C$ es el resultado de resolver $C_{1}$ y $C_{2}$. 
+	
+		De forma alternativa, se podría tomar un resolvente C y una cláusula $C_{1}$ y producir una cláusula $C_{2}$ de forma que C es el resultado de resolver $C_{1}$ y $C_{2}$.
+			\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig8.png}
+				\end{figure}		
+		En esta figura se muestran los primeros pasos del proceso de resolución inversa, donde nos centramos en el ejemplo positivo $Abuelo/a(George, Anne)$. 
+		
+		El proceso comienza al final de la prueba.
+Tomamos el resolvente $C$ como la cláusula vacía (es decir, una contradicción) y $C_{2}$ como $\neg Abuelo/a(George, Anne)$, que es la negación del ejemplo meta. 
+
+		El primer paso inverso toma C y $C_{2}$ y genera la cláusula Abuelo/a(George, Anne) para $C_{1}$. 
+		
+		El siguiente paso toma esta cláusula como C y la cláusula $Progenitor(Elizabeth, Anne)$ como $C_{2}$, y genera la cláusula
+			$$\neg Progenitor(Elizabeth, y) \lor Abuelo/a(George,y)$$
+
+		como $C_{1}$. El último paso trata esta cláusula como resolvente. Con $Progenitor(George,Elizabeth)$ como $C_{2}$ , una posible cláusula $C_{1}$ es la hipótesis
+			
+			$$Progenitor(x, z) \land Progenitor(z, y) \Rightarrow Progenitor/a(x, y)$$
+		
+		Ahora tenemos una prueba de resolución que a partir de las hipótesis, descripciones y el conocimiento básico se deduce la clasificación $Abuelo/a(George, Anne)$.
+
+		Obviamente, la resolución inversa requiere una búsqueda. 
+Cada paso de resolución inversa es no determinístico, ya que para cualquier $C$, puede haber muchos o incluso un número infinito de cláusulas $C_{1}$ , $C_{2}$ que resuelvan $C$. 
+		
+		Por ejemplo, en vez de elegir $\neg Progenitor(Elizabeth, y) \land Abuelo/a(George, y)$ como $C_{1}$ en el último paso, el paso de resolución inversa podría haber elegido cualquiera de las siguientes sentencias:
+				$$\neg Progenitor(Elizabeth, Anne) \lor Abuelo/a(George, Anne)$$
+				$$\neg Progenitor(z, Anne) \lor Abuelo/a(George, Anne)$$
+				$$\neg Progenitor(x, y)\lor Abuelo/a(George, y)$$
+				$$...$$ 
+			Además, las cláusulas que participan en cada paso pueden elegirse del ConocimientoBásico, de la Descripción de los ejemplos, de la negación de las Clasificaciones, o de las cláusulas hipótesis que ya han sido generadas en el árbol de resolución inversa. El gran número de posibilidades conlleva un gran factor de ramificación (y por ello una búsqueda ineficiente) sin controles adicionales. En sistemas ILP se han implementado varios enfoques para mejorar la búsqueda:
+			
+			\begin{enumerate}
+				\item Pueden eliminarse opciones redundantes, por ejemplo, generando sólo la hipótesis más específica posible y requiriendo que todas las cláusulas hipótesis sean consistentes entre sí, y con las observaciones. Este último criterio desecharía la cláusula $\neg Progenitor(z, y) \lor Abuelo/a(George, y)$, mostrada anteriormente.\\
+				\item Se puede restringir la estrategia de prueba. Las estrategias reducidas permiten que los árboles de prueba tengan sólo estructuras de ramificación lineal.\\
+				\item Se puede restringir el lenguaje de representación, por ejemplo eliminando los símbolos de funciones o permitiendo sólo cláusulas de Horn. Por ejemplo, PROGOL opera con cláusulas de Horn usando deducción inversa. La idea es cambiar la restricción.\\
+				
+					$$\textit{ConocimientoBásico} \land \textit{Hipótesis}\land Descripciones \models Clasificaciones$$
+				por la siguiente fórmula lógicamente equivalente
+					$$\textit{ConocimientoBásico}\land Descripciones\land \neg Clasificaciones\models \neg \textit{Hipótesis}$$
+				A partir de esto, se puede usar un proceso similar a la deducción normal con la negación como fallo que realiza Prolog con cláusulas de Horn, para derivar las Hipótesis. Ya que se restringe a cláusulas de Horn, es un método incompleto, pero puede ser más eficiente que la resolución completa. También es posible aplicar inferencia completa con deducción inversa, Inoue (2001).\\		
+				\item Se puede hacer la inferencia con comprobación de modelos en vez de con demostración de teoremas. El sistema PROGOL (Muggleton, 1995) usa un tipo de comprobación de modelos para limitar la búsqueda. Es decir, al igual que en la programación de conjuntos, genera posibles valores para variables lógicas, y comprueba la consistencia.\\
+				\item Se puede hacer la inferencia con cláusulas proposicionales instanciadas en vez de con lógica de primer orden. El sistema LINUS (Lavrac y Dzeroski, 1994) funciona traduciendo teorías en lógica de primer orden a lógica proposicional, resolviéndolas con un sistema de aprendizaje proposicional, y luego volviéndolas a traducir.\\
+			\end{enumerate}
+				
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig9.png}
+				\end{figure}
+				
+			\subsection{Hacer descubrimientos con la programación lógica inductiva}
+				Un procedimiento de resolución inversa que invierte completamente la estrategia de resolución es, en principio, un algoritmo completo para el aprendizaje de teorías de primer orden. Es decir, si alguna Hipótesis desconocida genera un conjunto de ejemplos, un procedimiento de resolución inversa puede generar Hipótesis a partir de ejemplos.
+				
+				Esta observación sugiere una posibilidad interesante: suponga que los ejemplos disponibles incluyen varias trayectorias de cuerpos cayendo. ¿Podría un programa de resolución inversa ser teóricamente capaz de inferir la ley de la gravedad? Claramente la respuesta es que sí, ya que la ley de la gravedad permite explicar los ejemplos, dada una base matemática adecuada. De forma similar, podemos imaginar que el electromagnetismo, la mecánica cuántica y la teoría de la relatividad también pertenecen al ámbito de los programas de ILP. Por supuesto, se puede decir que también están al alcance de un mono con una máquina de escribir; todavía necesitamos heurísticas mejores y nuevas formas de estructurar el espacio de búsqueda.
+				
+				Algo que los sistemas de resolución inversa pueden hacer por nosotros es inventar nuevos predicados. Esta capacidad a menudo parece algo mágica, ya que normalmente parece que los computadores ``trabajan sólo con lo que se les da''. De hecho, los nuevos predicados se generan directamente a partir de los pasos de resolución inversa. El caso más simple aparece cuando tomamos como hipótesis dos nuevas cláusulas $C_{1}$ y $C_{2}$, dada una cláusula $C$. La resolución de $C_{1}$ y $C_{2}$ elimina un literal que las dos cláusulas comparten; a partir de aquí, es bastante posible que el literal eliminado contenga un predicado que no aparezca en $C$. Por ello, cuando se trabaja hacia atrás, una posibilidad es generar un nuevo predicado a partir de reconstruir el literal que falta.
+				
+				\begin{figure}[h]
+					\centering
+					\includegraphics[width=0.8\textwidth]{./section3/fig10.png}
+				\end{figure}
+				Ejemplo en el cual el nuevo predicado $P$ se genera en el proceso de aprendizaje de la definición de Antecesor. Una vez generado, $P$ se puede usar en pasos posteriores de resolución inversa. Por ejemplo, un paso posterior podría tomar como hipótesis $Madre(x, y) \Rightarrow P(x, y)$. Por ello, el nuevo predicado $P$ tiene su significado restringido por la generación de hipótesis relacionadas con él. Otro ejemplo podría llevarnos a la restricción $Padre(x, y)\Rightarrow P(x, y)$. En otras palabras, el predicado $P$ es lo que hemos denominado la relación Progenitor. Como mencionamos anteriormente, la invención de nuevos predicados puede reducir el tamaño de la definición del predicado meta. Por lo tanto, incluyendo la habilidad de inventar nuevos predicados, los sistemas de resolución inversa pueden resolver a menudo problemas que es inviable resolver con otras técnicas.
+				
+				Algunas de las revoluciones más trascendentes que se han producido en la ciencia
+vienen de la invención de nuevos predicados y funciones, por ejemplo, la invención de la aceleración de Galileo, o la invención de la energía térmica de Joule. Una vez que estos términos están disponibles, el descubrimiento de nuevas leyes se convierte en una tarea (relativamente) fácil. La parte difícil recae en darse cuenta de que alguna nueva entidad, con una relación específica con entidades existentes, permitiría que un cuerpo entero de observaciones sea explicado de una forma más simple y con teorías más elegantes de las que previamente existían.
+
+				Hasta ahora, los sistemas ILP no han hecho descubrimientos al nivel de Galileo o Joule, pero sus descubrimientos han sido juzgados como publicables en la literatura científica. Por ejemplo, en la revista Journal of Molecular Biology, Turcotte et al. (2001) describen el descubrimiento automático de reglas para el pliegue de proteínas usando el programa P ROGOL de ILP. Muchas de las reglas descubiertas por P ROGOL podrían haber sido derivadas a partir de principios conocidos, pero la mayoría no habían sido previamente publicadas como parte de una base de datos biológicos estándar. En trabajos relacionados, Srinivasan et al. (1994) trataban el problema de descubrir reglas basadas en la estructura molecular para la mutación de componentes nitroaromáticas. Estas componentes se encontraron en gases de automóviles. Para el 80 por ciento de las componentes de una base de datos estándar, es posible identificar cuatro características importantes. La regresión lineal sobre estas características mejora a ILP. Para el restante 20 por ciento, las características por separado no pueden predecirse, e ILP identifica relaciones que le permiten mejorar la regresión lineal, las redes de neuronas y los árboles de decisión. King et al. (1992) mostró cómo predecir la eficacia terapéutica de varias drogas a partir de su estructura molecular. En todos estos ejemplos se observa que tanto la habilidad de representar relaciones como el uso de conocimiento básico contribuyen al alto rendimiento de ILP. El hecho de que las reglas encontradas por ILP puedan ser interpretadas por los humanos contribuye a la aceptación de estas técnicas tanto en revistas de Biología como en revistas de informática.
+
+				ILP ha contribuido a otras ciencias además de la Biología. Una de las más importantes es el procesamiento del lenguaje natural, donde ILP se ha usado para extraer información relacional compleja a partir de un texto. 
+
+				
 \end{document}
+			
